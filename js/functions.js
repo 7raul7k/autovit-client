@@ -19,4 +19,35 @@ function homePage(){
         </tbody>
         </table>
     `
+
+	attachRows();
+}
+
+function createRow(car){
+
+	return `
+	<tr>
+		<td class="owner">${car.owner}</td>
+		<td class="brand">${car.brand}</td>
+		<td class="year">${car.year}</td>
+		<td class="color">${car.color}</td>
+		<td class="make">${car.make}</td>
+	</tr>`;
+}
+
+async function attachRows(){
+	
+
+	let carContainer = document.querySelector(".container-cars")
+
+	let text = "";
+
+	let data = await getAllCars();
+
+	data.forEach(element => {
+		text += createRow(element);
+	});
+
+	carContainer.innerHTML = text;
+
 }
