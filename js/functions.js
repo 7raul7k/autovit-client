@@ -28,7 +28,30 @@ addButton.addEventListener("click",()=>{
 
 	attachAddPage();
 })
+
+let carsContainer = document.querySelector(".container-cars");
+
+carsContainer.addEventListener("click",(e)=>{
+
+	let target = e.target;
+
+	if(target.classList.contains("owner")){
+		let parent = target.parentNode;
+
+		let car = {
+			id:parent.id,
+			owner:parent.querySelector(".owner").textContent,
+			brand:parent.querySelector(".brand").textContent,
+			year:parent.querySelector(".year").textContent,
+			make:parent.querySelector(".make").textContent,
+			color:parent.querySelector(".color").textContent
+		}
+		attachUpdatePage(car);
+	}
+})
 }
+
+
 
 function createRow(car){
 
@@ -179,7 +202,72 @@ function removeError(error){
     let err = document.querySelector(`.${error}-error`);
 
     err.textContent = "";
+}
 
 
+function attachUpdatePage(car){
 
+	let container = document.querySelector(".container")
+
+	container.innerHTML=` <h1>Update Car</h1>
+    <form>
+        <p>
+            <label for="owner">Owner</label>
+            <input name="owner" type="text" id="owner" value="${car.owner}">
+        </p>
+        <p>
+            <label for="brand">Brand</label>
+            <input name="brand" type="text" id="brand" value="${car.brand}">
+        </p>
+        <p>
+            <label for="make">Make</label>
+            <input name="make" type="text" id="make" value="${car.make}">
+        </p>
+        <p>
+            <label for="color">Color</label>
+            <input name="color" type="text" id="color" value="${car.color}">
+        </p>
+		<p>
+		<label for="year">Year</label>
+		<input name="year" type="text" id="year" value="${car.year}">
+	</p>
+        <p>
+            <input type="submit" class="btn-update" value="Update Car">
+        </p>
+    </form>
+    <form method="post" onsubmit="return confirm('Do you really want to delete this car?');">
+        <p>
+            <a class="button btn-cancel">Cancel</a>
+        </p>
+        <p><input type="submit" class="btn-delete"value="Delete Car"></p>
+    </form>`
+
+	let cancel = document.querySelector(".btn-cancel");
+
+	cancel.addEventListener("click",()=>{
+
+		homePage();
+	})
+
+	let carsService = new CarService();
+
+	let updateButton = document.querySelector(".btn-update");
+
+	updateButton.addEventListener("click",(e)=>{
+
+		e.preventDefault() 
+		let inptOwner = document.querySelector("#owner");
+		let inptBrand = document.querySelector("#brand");
+		let inptColor = document.querySelector("#color");
+		let inptYear = document.querySelector("#year");
+		let inptMake = document.querySelector("#make");
+
+		let newCar = {owner:inptOwner.value,brand:inptBrand.value,color:inptColor.value,year:inptYear.value,make:inptMake.value};
+
+		carsService.updateCar(newCar);
+
+		homePage();
+
+
+	})
 }
