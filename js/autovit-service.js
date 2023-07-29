@@ -95,11 +95,11 @@ class CarService {
     }
 
 
-    async deleteCar(name) {
+    async deleteCar(car) {
 
         try {
 
-            let data = await this.api(`/delete?name=${name}}`, "DELETE")
+            let data = await this.api(`/delete`, "DELETE",car)
 
 
             if (data.status === 202) {

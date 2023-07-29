@@ -140,12 +140,14 @@ function attachAddPage(){
 	
 	createButton.addEventListener("click",(e)=>{
 		e.preventDefault()
+		
 		let newCar = {owner:inptOwner.value,brand:inptBrand.value,color:inptColor.value,year:inptYear.value,make:inptMake.value}
 
 		if(inptOwner.value !== "" && inptBrand.value !== "" && inptMake.value !== "" 
 		&& inptColor.value !== "" && inptYear.value !== ""){
 
-			autovitService.addCar(car);
+			autovitService.addCar(newCar);
+			homePage();
 		}else{
 			let errors= [];
 			for(const property in newCar){
@@ -235,12 +237,12 @@ function attachUpdatePage(car){
             <input type="submit" class="btn-update" value="Update Car">
         </p>
     </form>
-    <form method="post" onsubmit="return confirm('Do you really want to delete this car?');">
+   
         <p>
             <a class="button btn-cancel">Cancel</a>
         </p>
         <p><input type="submit" class="btn-delete"value="Delete Car"></p>
-    </form>`
+   `
 
 	let cancel = document.querySelector(".btn-cancel");
 
@@ -267,7 +269,22 @@ function attachUpdatePage(car){
 		carsService.updateCar(newCar);
 
 		homePage();
-
-
 	})
+
+	let deleteButton = document.querySelector(".btn-delete")
+
+	deleteButton.addEventListener("click",()=>{
+		let inptOwner = document.querySelector("#owner");
+		let inptBrand = document.querySelector("#brand");
+		let inptColor = document.querySelector("#color");
+		let inptYear = document.querySelector("#year");
+		let inptMake = document.querySelector("#make");
+
+		let newCar = {owner:inptOwner.value,brand:inptBrand.value,color:inptColor.value,year:inptYear.value,make:inptMake.value};
+
+		carsService.deleteCar(newCar);
+		homePage();
+	})
+
+
 }
